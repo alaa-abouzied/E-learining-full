@@ -5,6 +5,7 @@ from .models import Category
 from .serializers import CategorySerializer
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import generics,mixins,viewsets
 # Category Function Based View
 
 
@@ -53,3 +54,16 @@ def Category_pk(request, pk):
     if request.method == 'DELETE':
         category.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class generics_category(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class= CategorySerializer
+    #authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated] 
+    
+    
+class generics_cat_pk(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class= CategorySerializer
+    #authentication_classes = [TokenAuthentication]

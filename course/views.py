@@ -9,7 +9,8 @@ from rest_framework.views import APIView
 from rest_framework import generics,mixins,viewsets
 from rest_framework.authentication import BasicAuthentication,TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .permissions import IstheUser
+from category.models import Category
+#from .permissions import IstheUser
 # Create your views here.
 
 def no_rest_no_model(request):
@@ -92,7 +93,7 @@ class CBV_List(APIView):
             serializer.data,
             status=status.HTTP_400_BAD_REQUEST
         )
-
+        
 
 class CBV_pk(APIView):
     def get_object(self, pk):
@@ -150,19 +151,32 @@ class mixins_pk(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.Destr
 class generics_list(generics.ListCreateAPIView):
     queryset = Course.objects.all()
     serializer_class= CourseSerializer
-    authentication_classes = [TokenAuthentication]
+    #authentication_classes = [TokenAuthentication]
     # permission_classes = [IsAuthenticated] 
+    
     
 class generics_pk(generics.RetrieveUpdateDestroyAPIView):
     queryset = Course.objects.all()
     serializer_class= CourseSerializer
-    authentication_classes = [TokenAuthentication]
+    #authentication_classes = [TokenAuthentication]
+    
+    
+class generics_userlist(generics.ListAPIView):
+    #queryset = Course.objects.all()
+    serializer_class= CourseSerializer
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        user = User.objects.get(pk=user_id)
+        return Course.objects.filter(user=user)
+    #authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]     
 #################################################################################
 
 class viewsets_guest(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class= CourseSerializer
-    authentication_classes = [TokenAuthentication]
+    #authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated] 
     
 #################################################################################    
 
@@ -177,6 +191,11 @@ def find_course(request):
 
 
 class Course_pk(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IstheUser]
+    #permission_classes = [IstheUser]
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    
+    
+# class CategoryList(generics.ListCreateAPIView):
+#     queryset = Category.objects.all()
+#     serializer_class= Categoryerializer   

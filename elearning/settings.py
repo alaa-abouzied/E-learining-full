@@ -154,10 +154,16 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'testdjango55@gmail.com'
 EMAIL_HOST_PASSWORD = 'fqflkrusnqecqjlv'
 
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://127.0.0.1:8000",
 ]
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+    "http://localhost:8000",
+    ]
 CORS_ALLOW_METHODS = [
     "DELETE",
     "GET",

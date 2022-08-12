@@ -25,5 +25,7 @@ urlpatterns = [
     path('api-token-auth',obtain_auth_token),
     #path('course/generics/',views.Course_list.as_view()),
     path('course/generics/<int:pk>',views.Course_pk.as_view()),
+    #path('rest/category/', views.CategoryList.as_view()),
+    path('rest/usercourses/<int:user_pk>',views.generics_userlist.as_view())
 ]
 
